@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-//this is similar to entity in Springboot
+//this is similar to an Entity in Springboot
 //id will be auto handled by database
 const bookSchema = mongoose.Schema(
   {
@@ -14,7 +14,7 @@ const bookSchema = mongoose.Schema(
     },
     publishYear: {
       type: Number,
-      rqeuired: true,
+      required: true,
     },
   },
   { timestamps: true }
