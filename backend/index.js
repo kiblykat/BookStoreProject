@@ -14,33 +14,41 @@ app.get("/", (req, res) => {
   return res.status(234).send("hi mern stack");
 });
 
-//route for POST
+//route for POST (create)
 app.post("/books", async (req, res) => {
-  //error checking
   try {
-    if (!req.body.title || !req.body.author || !req.body.publishYear) {
-      return res.status(400).send({
-        message: "Send all required fields: title,author.publishYear",
-      });
+    if (
+      req.body.title == null ||
+      req.body.author == null ||
+      req.body.publishYear == null
+    ) {
+      return res.status(400).send({ message: "send all required fields" });
     }
-
-    //create new object newBook based from user input, to be pushed into db
     const newBook = {
       title: req.body.title,
       author: req.body.author,
       publishYear: req.body.publishYear,
     };
 
-    //adds the POST request as a new book in db, await for synchronous running
     const book = await BookRepository.create(newBook);
-
-    //return status OK and send book res
     return res.status(201).send(book);
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
     res.status(500).send({ message: err.message });
   }
 });
+
+//route for GET ALL (find)
+app.get("/books", async (req, res) => {
+  try {
+    const books = await BookRepository.find({});
+    return res.status(200).json(books);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send({ message: err.message });
+  }
+});
+
 mongoose
   .connect(mongoDBURL)
   .then(() => {
