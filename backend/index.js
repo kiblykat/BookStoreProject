@@ -1,7 +1,7 @@
 import express, { response } from "express";
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
-import { Book } from "./models/bookModel.js";
+import { BookRepository } from "./models/bookModel.js";
 
 const app = express();
 
@@ -32,7 +32,7 @@ app.post("/books", async (req, res) => {
     };
 
     //adds the POST request as a new book in db, await for synchronous running
-    const book = await Book.create(newBook);
+    const book = await BookRepository.create(newBook);
 
     //return status OK and send book res
     return res.status(201).send(book);
