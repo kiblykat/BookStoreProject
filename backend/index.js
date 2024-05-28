@@ -47,11 +47,31 @@ app.get("/books/:id", async (req, res) => {
   try {
     //Need to DESTRUCTURE first
     const { id } = req.params;
-    if (!id) {
-      res.status(404).send({ message: `${id} not found` });
-    }
+
     const book = await BookRepository.findById(id);
     return res.status(200).send(book);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send({ message: err.message,inSimpleWords: "id is not available haha" });
+  }
+});
+
+//route for PUT (findByIdAndUpdate)
+app.put("/books/:id", async (req, res) => {
+  try {
+    if (!req.body.title || !req.body.author || !req.body.publishYear) {
+      return res.status(400).send({
+        message: "Send all required fields:title, author, publishYear",
+      });
+    }
+    const { id } = req.params;
+    const book = await BookRepository.findByIdAndUpdate(id, req.body);
+    if (!book) {
+      return res.status(404).send({ message: "Book not found" });
+    }
+    return res
+      .status(200)
+      .send({ message: "Book successfully updated", data: book });
   } catch (err) {
     console.log(err.message);
     res.status(500).send({ message: err.message });
