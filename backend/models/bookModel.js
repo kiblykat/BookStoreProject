@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-//this is similar to an Entity in Springboot
+//Schema === Entity in Springboot
 //id will be auto handled by database
 const bookSchema = mongoose.Schema(
   {
@@ -19,5 +19,6 @@ const bookSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-
+//Model === Repository in Springboot
+//Provides built in Repository functions (find/create...)
 export const BookRepository = mongoose.model("Book", bookSchema);
