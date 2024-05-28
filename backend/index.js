@@ -2,6 +2,7 @@ import express, { response } from "express";
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import booksRoute from "./routes/booksRoute.js";
+import cors from "cors";
 
 //Middleware: express running on nodejs, to access backend-i.e mongodb
 const app = express();
@@ -10,7 +11,7 @@ app.use(express.json());
 
 //Middleware: for handling CORS policy
 //Option 1: Allow All
-app.use(cors({}));
+app.use(cors());
 //Option 2: Custom Origin
 // app.use(
 //   cors({
