@@ -52,7 +52,10 @@ app.get("/books/:id", async (req, res) => {
     return res.status(200).send(book);
   } catch (err) {
     console.log(err.message);
-    res.status(500).send({ message: err.message,inSimpleWords: "id is not available haha" });
+    res.status(500).send({
+      message: err.message,
+      inSimpleWords: "id is not available haha",
+    });
   }
 });
 
@@ -78,6 +81,16 @@ app.put("/books/:id", async (req, res) => {
   }
 });
 
+app.delete("/books/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const book = await BookRepository.findByIdAndDelete(id);
+    return res.status(200).send({ message: "Book deleted successfully" });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send({ message: err.message });
+  }
+});
 mongoose
   .connect(mongoDBURL)
   .then(() => {
