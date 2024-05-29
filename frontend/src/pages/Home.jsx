@@ -12,16 +12,17 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
-    axios
-      .get("http://localhost:5555/books")
-      .then((res) => {
-        setBooks(res.data.data); //1st data is standard of accessing, 2nd data is defined by us
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("http://localhost:5555/books");
+        setBooks(res.data.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
+      }
+    };
+    fetchData();
   }, []);
 
   return (
@@ -65,15 +66,17 @@ const Home = () => {
                   {book.publishYear}
                 </td>
                 <td className="border border-slate-700 rounded-md text-center">
-                  <Link to={`/books/details/${book._id}`}>
-                    <BsInfoCircle className="text-2xl text-green-800" />
-                  </Link>
-                  <Link to={`/books/edit/${book._id}`}>
-                    <AiOutlineEdit className="text-2xl text-yellow-600" />
-                  </Link>
-                  <Link to={`/books/delete/${book._id}`}>
-                    <MdOutlineDelete className="text-2xl text-red-600" />
-                  </Link>
+                  <div className="flex justify-center gap-x-4">
+                    <Link to={`/books/details/${book._id}`}>
+                      <BsInfoCircle className="text-2xl text-green-800" />
+                    </Link>
+                    <Link to={`/books/edit/${book._id}`}>
+                      <AiOutlineEdit className="text-2xl text-yellow-600" />
+                    </Link>
+                    <Link to={`/books/delete/${book._id}`}>
+                      <MdOutlineDelete className="text-2xl text-red-600" />
+                    </Link>
+                  </div>
                 </td>
               </tr>
             ))}
