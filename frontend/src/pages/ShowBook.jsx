@@ -13,8 +13,8 @@ const ShowBook = () => {
 
   useEffect(() => {
     const fetchBookData = async () => {
-      setLoading(true);
       try {
+        setLoading(true);
         const res = await axios.get(`http://localhost:5555/books/${id}`);
         setBook(res.data);
       } catch (err) {
