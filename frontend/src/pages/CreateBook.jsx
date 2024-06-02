@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 const CreateBook = () => {
   const [loading, setLoading] = useState(false);
@@ -12,6 +13,7 @@ const CreateBook = () => {
   const [author, setAuthor] = useState("");
   const [publishYear, setPublishYear] = useState("");
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = async (e) => {
     try {
@@ -22,9 +24,11 @@ const CreateBook = () => {
         publishYear,
       };
       const res = await axios.post("http://localhost:5555/books", data);
+      enqueueSnackbar("Book Created successfully", { variant: "success" });
       navigate("/");
     } catch (err) {
       console.log(err);
+      enqueueSnackbar(`Error. Check console for details`, { variant: "error" });
     } finally {
       setLoading(false);
     }
